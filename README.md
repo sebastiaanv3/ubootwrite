@@ -3,8 +3,8 @@ ubootwrite
 Is a simple python tool that uploads binary images to the RAM of linux systems running the U-Boot bootloader (e.g. for OpenWRT) via the serial port. It works in cases where no transfer via alternate methods (XMODEM/TFTP/BOOTM/etc.) can be made. ubootwrite has a high overhead, as the binary file is converted to ASCII and sent in 32Bit chucks, so transferring larger amounts of data can be really slow.
 The original author is "pgid69" and the original source is the [OpenWRT forum](https://forum.openwrt.org/viewtopic.php?pid=183315#p183315). The initial commit is the original version found in the forum and "pgid69" states the tool is based on [brntool](https://github.com/rvalles/brntool). As I did some adjustments for uploading data onto the Arcadyan ARV752DPW22 (Easybox 803A) and it did not seem to have a permanent home, I "forked" the code here...
 
-This version of ubootwrite has been modified by ???[^0] to provide support for the U-Boot loader as used by the Cisco Meraki MR33 Access Points. The U-Boot command prompt on these APs can only be reached if the ```xyzzy``` string (```CONFIG_AUTOBOOT_STOP_STR```) is send during boot.  
-This version won't work with regular U-Boot bootloaders, only with Cisco Meraki MR33 APs.
+This version of ubootwrite has been modified by ???[^0] to provide support for the vendor-modified [Das U-Boot loader](https://www.denx.de/wiki/U-Boot) as used by the Cisco Meraki MR33 Access Points. The U-Boot command prompt on these APs can only be reached if the ```xyzzy``` string ([```CONFIG_AUTOBOOT_STOP_STR```](https://source.denx.de/u-boot/u-boot/-/blob/master/doc/README.autoboot#L80)) is send during boot.  
+This version won't work with regular U-Boot bootloaders, only with Cisco modified bootloader as used in Meraki MR33 APs.
 
 Cisco Meraki MR33 Access Points are known to have two different versions of bootloaders:
 * ```U-Boot 2012.07-g97ab7f1 [local,local] (Oct 06 2016 - 13:07:25)```  

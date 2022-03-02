@@ -255,6 +255,9 @@ def main():
     parser.add_argument("--size", metavar = "size",
                         help = "# bytes to write",
                         dest = "size", default = "0")
+    parser.add_argument("--baudrate", metavar = "baudrate",
+                        help = "The baudrate of the serial port.",
+                        dest = "baudrate", default = 115200)
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
@@ -270,10 +273,10 @@ def main():
                 buf = ser.read(256)
                 print(f"buf = '{buf}'")
         else:
-            ser = serial.Serial(args.serial, 115200, timeout=0.1)
+            ser = serial.Serial(args.serial, args.baudrate, timeout=0.1)
             upload(ser, args.write, int(args.size, 0), int(args.addr, 0), args.verbose, args.shell)
     elif args.uboot:
-        ser = serial.Serial(args.serial, 115200, timeout=0.1)
+        ser = serial.Serial(args.serial, args.baudrate, timeout=0.1)
         prompt = getprompt(ser, args.verbose)
     else:
         print("No action specified, nothing to do...")

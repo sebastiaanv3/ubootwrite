@@ -246,6 +246,9 @@ def main():
     parser.add_argument("--write", metavar = "path",
                         help = "write the contents of a file to the memory of the device",
                         dest = "write")
+    parser.add_argument("--uboot", action = "store_true",
+                        help = "Only provide access to the Das U-Boot console.",
+                        dest = "uboot", default = False)
     parser.add_argument("--addr", metavar = "addr",
                         help = "memory address",
                         dest = "addr", default = "0x82000000")
@@ -258,6 +261,7 @@ def main():
         parser.print_help()
         sys.exit()
 
+    # Figure out what to do based on the provided command line arguments
     if args.write:
         if DEBUG:
             with open(args.write + ".out", "wb") as ser:
@@ -268,6 +272,9 @@ def main():
         else:
             ser = serial.Serial(args.serial, 115200, timeout=0.1)
             upload(ser, args.write, int(args.size, 0), int(args.addr, 0), args.verbose, args.shell)
+    elif args.uboot:
+        ser = serial.Serial(args.serial, 115200, timeout=0.1)
+        prompt = getprompt(ser, args.verbose)
     else:
         print("No action specified, nothing to do...")
 

@@ -233,22 +233,26 @@ def main():
     """Entry Point"""
 
     parser = argparse.ArgumentParser("ubootwrite")
+    # Which action to undertake
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--write", metavar = "path",
+                        help = "write the contents of a file to the memory of the device",
+                        dest = "write")
+    group.add_argument("--uboot", action = "store_true",
+                        help = "Only provide access to the Das U-Boot console.",
+                        dest = "uboot", default = False)
+    # The usual suspects
     parser.add_argument('--version', action='version', version='%(prog)s 0.2 mr33')
     parser.add_argument("--verbose", action = "store_true",
                         help = "be verbose",
                         dest = "verbose", default = False)
+    # Options to tailor the actions to your specific needs, not needed by default
     parser.add_argument("--shell", action = "store_true",
                         help = "I already have a shell, no need to create one for me.",
                         dest = "shell", default = False)
     parser.add_argument("--serial", metavar = "dev",
                         help = "serial port to use",
                         dest = "serial", default = "/dev/ttyUSB0")
-    parser.add_argument("--write", metavar = "path",
-                        help = "write the contents of a file to the memory of the device",
-                        dest = "write")
-    parser.add_argument("--uboot", action = "store_true",
-                        help = "Only provide access to the Das U-Boot console.",
-                        dest = "uboot", default = False)
     parser.add_argument("--addr", metavar = "addr",
                         help = "memory address",
                         dest = "addr", default = "0x82000000")
@@ -257,7 +261,7 @@ def main():
                         dest = "size", default = "0")
     parser.add_argument("--baudrate", metavar = "baudrate",
                         help = "The baudrate of the serial port.",
-                        dest = "baudrate", default = 115200)
+                        dest = "baudrate", type = int, default = 115200)
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
